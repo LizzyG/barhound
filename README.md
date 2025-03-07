@@ -37,7 +37,22 @@ npm install
 # Set up environment variables
 cp .env.example .env
 # Edit .env with your Supabase and Google API credentials
+```
 
+### Environment Variables
+
+The application uses the following environment variables:
+
+- `VITE_SUPABASE_URL`: Your Supabase project URL
+- `VITE_SUPABASE_ANON_KEY`: Your Supabase anonymous key
+
+These variables should be set in a `.env` file at the root of the project. A template `.env.example` file is provided.
+
+**Important**: Never commit your `.env` file to version control. It's already added to `.gitignore`.
+
+### Development
+
+```bash
 # Start the development server
 npm run dev
 ```
@@ -67,4 +82,4 @@ This project is currently in early development. If you're interested in contribu
 - [Vue.js](https://vuejs.org/)
 - [Leaflet](https://leafletjs.com/)
 - [Supabase](https://supabase.io/)
-- [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview) 
+- [Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview)
