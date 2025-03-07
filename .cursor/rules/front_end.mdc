@@ -1,0 +1,54 @@
+---
+description: Front end development related to barhound
+globs: 
+alwaysApply: false
+---
+# Cursor Rules
+
+This file outlines the project guidelines. Follow these rules to ensure a consistent and maintainable codebase.
+
+---
+
+## 1. Technologies
+
+- **Vue:** 3.5  
+- **Build Tool:** Vite 6  
+- **CSS Framework:** Tailwind 4 with DaisyUI 5  
+- **Runtime:** Node 18  
+- **Backend:** Supabase  
+
+*Do not introduce any new frameworks without approval.*
+
+---
+
+## 2. Documentation
+
+- Store all documentation in the `docs` folder.
+- Keep the top-level README updated with every change.
+
+---
+
+## 3. CSS & Design
+
+- Define all CSS in a main stylesheet (avoid inline styles).
+- Organize CSS so the main color scheme can be easily redefined.
+- Ensure the design is responsive for both desktop and mobile.
+
+---
+
+## 4. Routing & Layout
+
+- Use a standard router.
+- Implement an outer container that includes:
+  - Branding (e.g., logo)
+  - Navigation menu
+  - Footer (on desktop)
+- Inside the outer container, place the main content pane(s).
+
+---
+
+## 5. Project Structure
+
+- Follow a consistent project structure with predictable file and folder locations.
+- Before creating new folders, files, types, or functions, check if they already exist.
+- Modify existing items when possible rather than duplicating code.
