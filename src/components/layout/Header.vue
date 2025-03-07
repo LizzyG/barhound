@@ -26,6 +26,18 @@
           </span>
           {{ locationText }}
         </button>
+        
+        <!-- Data Source Toggle (only visible in development) -->
+        <div v-if="isDevelopment" class="ml-4 flex items-center">
+          <span class="text-xs text-gray-500 mr-2">Data:</span>
+          <button 
+            @click="toggleDataSource" 
+            class="text-xs px-2 py-1 rounded"
+            :class="dataSourceClass"
+          >
+            {{ dataSource }}
+          </button>
+        </div>
       </div>
       
       <!-- Mobile Menu Button -->
@@ -45,6 +57,18 @@
       <div class="container mx-auto px-4 py-2">
         <router-link to="/" class="block py-1 text-gray-700 hover:text-primary">Home</router-link>
         <router-link to="/about" class="block py-1 text-gray-700 hover:text-primary">About</router-link>
+        
+        <!-- Data Source Toggle in Mobile Menu -->
+        <div v-if="isDevelopment" class="py-1 flex items-center">
+          <span class="text-xs text-gray-500 mr-2">Data Source:</span>
+          <button 
+            @click="toggleDataSource" 
+            class="text-xs px-2 py-1 rounded"
+            :class="dataSourceClass"
+          >
+            {{ dataSource }}
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -57,10 +81,21 @@ import { useBarStore } from '../../stores/barStore';
 const barStore = useBarStore();
 const mobileMenuOpen = ref(false);
 
+// Check if we're in development mode
+const isDevelopment = import.meta.env.DEV;
+
+// Get the current data source
+const dataSource = computed(() => barStore.dataSource);
+
+// Styling for the data source button
+const dataSourceClass = computed(() => {
+  return dataSource.value === 'sample' 
+    ? 'bg-blue-100 text-blue-800' 
+    : 'bg-green-100 text-green-800';
+});
+
 const locationText = computed(() => {
-  return barStore.userLocation 
-    ? `${barStore.userLocation.name || 'Current Location'}`
-    : 'Portland, OR';
+  return barStore.currentLocation.name || 'Portland, OR';
 });
 
 const toggleMobileMenu = () => {
@@ -79,11 +114,13 @@ const getCurrentLocation = () => {
       },
       (error) => {
         console.error('Error getting location:', error);
-        alert('Unable to get your location. Using default location.');
       }
     );
-  } else {
-    alert('Geolocation is not supported by your browser. Using default location.');
   }
+};
+
+// Toggle between sample data and Supabase
+const toggleDataSource = () => {
+  barStore.toggleDataSource();
 };
 </script> 

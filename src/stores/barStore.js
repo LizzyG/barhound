@@ -1,10 +1,16 @@
 import { defineStore } from 'pinia';
+import { supabase } from '../utils/supabase';
+import { sampleBars } from '../data/sampleBars';
+
+// Check if we should use sample data from the environment variable
+const useSampleData = import.meta.env.VITE_USE_SAMPLE_DATA === 'true';
 
 export const useBarStore = defineStore('bars', {
   state: () => ({
     bars: [],
     loading: false,
     error: null,
+    dataSource: useSampleData ? 'sample' : 'supabase',
     filters: {
       liveMusic: false,
       dogFriendly: false,
@@ -66,79 +72,72 @@ export const useBarStore = defineStore('bars', {
       this.error = null;
       
       try {
-        // In a real app, this would be an API call to Supabase
-        // For now, we'll simulate a delay and return mock data
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        this.bars = [
-          // Mock data will be replaced with real API data
-          {
-            id: '1',
-            name: 'The Friendly Pub',
-            address: '123 Main St, Portland, OR',
-            latitude: 45.5232,
-            longitude: -122.6819,
-            rating: 4.5,
-            priceLevel: 2,
-            photoUrl: 'https://placehold.co/600x400',
-            isOpenNow: true,
-            distance: 0.5,
+        if (useSampleData) {
+          // Use sample data with a simulated delay
+          console.log('Using sample data for bars');
+          await new Promise(resolve => setTimeout(resolve, 500));
+          this.bars = sampleBars;
+        } else {
+          // Fetch data from Supabase
+          console.log('Fetching bars from Supabase');
+          const { data, error } = await supabase
+            .from('bars')
+            .select('*');
+            
+          if (error) throw error;
+          
+          // Transform data if needed to match the expected format
+          this.bars = data.map(bar => ({
+            id: bar.id,
+            name: bar.name,
+            address: bar.address,
+            latitude: bar.latitude,
+            longitude: bar.longitude,
+            rating: bar.rating,
+            priceLevel: bar.price_level,
+            photoUrl: bar.photo_url || 'https://placehold.co/600x400',
+            isOpenNow: this.checkIfOpen(bar.opening_hours),
+            distance: this.calculateDistance(bar.latitude, bar.longitude),
+            phone: bar.phone,
+            website: bar.website,
             attributes: {
-              liveMusic: true,
-              dogFriendly: true,
-              poolTables: false,
-              happyHour: true,
-              outdoorSeating: true,
-              sportsViewing: false
+              liveMusic: bar.live_music,
+              dogFriendly: bar.dog_friendly,
+              poolTables: bar.pool_tables,
+              happyHour: bar.happy_hour,
+              outdoorSeating: bar.outdoor_seating,
+              sportsViewing: bar.sports_viewing
             }
-          },
-          {
-            id: '2',
-            name: 'Sports Bar & Grill',
-            address: '456 Oak St, Portland, OR',
-            latitude: 45.5187,
-            longitude: -122.6762,
-            rating: 4.2,
-            priceLevel: 2,
-            photoUrl: 'https://placehold.co/600x400',
-            isOpenNow: true,
-            distance: 0.8,
-            attributes: {
-              liveMusic: false,
-              dogFriendly: false,
-              poolTables: true,
-              happyHour: true,
-              outdoorSeating: false,
-              sportsViewing: true
-            }
-          },
-          {
-            id: '3',
-            name: 'Craft Beer Haven',
-            address: '789 Pine St, Portland, OR',
-            latitude: 45.5211,
-            longitude: -122.6747,
-            rating: 4.8,
-            priceLevel: 3,
-            photoUrl: 'https://placehold.co/600x400',
-            isOpenNow: false,
-            distance: 1.2,
-            attributes: {
-              liveMusic: true,
-              dogFriendly: true,
-              poolTables: false,
-              happyHour: false,
-              outdoorSeating: true,
-              sportsViewing: false
-            }
-          }
-        ];
+          }));
+        }
       } catch (error) {
         this.error = error.message || 'Failed to fetch bars';
         console.error('Error fetching bars:', error);
       } finally {
         this.loading = false;
       }
+    },
+    
+    // Helper method to check if a bar is currently open
+    checkIfOpen(openingHours) {
+      // This is a simplified implementation
+      // In a real app, you would parse the opening hours and check against current time
+      return Math.random() > 0.3; // 70% chance of being open for demo purposes
+    },
+    
+    // Helper method to calculate distance from user location
+    calculateDistance(lat, lng) {
+      // This is a simplified implementation
+      // In a real app, you would calculate the actual distance from user's location
+      const userLat = this.currentLocation.lat;
+      const userLng = this.currentLocation.lng;
+      
+      // Simple distance calculation (not accurate for real-world use)
+      const distance = Math.sqrt(
+        Math.pow(lat - userLat, 2) + Math.pow(lng - userLng, 2)
+      ) * 100;
+      
+      return parseFloat(distance.toFixed(1));
     },
     
     setSelectedBar(barId) {
@@ -172,6 +171,13 @@ export const useBarStore = defineStore('bars', {
     
     setFilter(filterName, value) {
       this.filters[filterName] = value;
+    },
+    
+    // Toggle between sample data and Supabase
+    toggleDataSource() {
+      // This is for debugging/development only
+      this.dataSource = this.dataSource === 'sample' ? 'supabase' : 'sample';
+      this.fetchBars();
     }
   }
 }); 

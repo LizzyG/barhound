@@ -52,3 +52,10 @@ This file outlines the project guidelines. Follow these rules to ensure a consis
 - Follow a consistent project structure with predictable file and folder locations.
 - Before creating new folders, files, types, or functions, check if they already exist.
 - Modify existing items when possible rather than duplicating code.
+
+---
+
+## 6. Modification Guidelines
+
+- **Targeted Changes:** Limit edits strictly to what you're intentionally modifying.
+- **Avoid Unintended Edits:** Do not alter unrelated parts of any file (e.g., configuration or environment values).
