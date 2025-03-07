@@ -3,6 +3,7 @@
     <div class="container mx-auto px-4 py-2 flex items-center justify-between">
       <!-- Logo -->
       <router-link to="/" class="flex items-center">
+        <img src="/logo.svg" alt="BarHound Logo" class="h-8 w-8 mr-2" />
         <span class="text-xl font-bold text-primary">BarHound</span>
       </router-link>
       

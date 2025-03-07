@@ -6,8 +6,8 @@
         <div class="flex items-center space-x-6 mb-2">
           <router-link to="/" class="text-gray-300 hover:text-white">Home</router-link>
           <router-link to="/about" class="text-gray-300 hover:text-white">About</router-link>
-          <a href="#" class="text-gray-300 hover:text-white">Privacy</a>
-          <a href="#" class="text-gray-300 hover:text-white">Terms</a>
+          <router-link to="/privacy" class="text-gray-300 hover:text-white">Privacy</router-link>
+          <router-link to="/terms" class="text-gray-300 hover:text-white">Terms</router-link>
         </div>
         
         <div class="flex items-center space-x-4 mb-1">
@@ -26,7 +26,14 @@
       
       <!-- Mobile Footer - Super Minimal -->
       <div class="md:hidden flex justify-center">
-        <span class="text-gray-400 text-[10px]">&copy; {{ new Date().getFullYear() }} BarHound</span>
+        <div class="flex flex-col items-center">
+          <div class="flex space-x-3 mb-1">
+            <router-link to="/privacy" class="text-gray-400 text-[10px] hover:text-white">Privacy</router-link>
+            <span class="text-gray-500 text-[10px]">|</span>
+            <router-link to="/terms" class="text-gray-400 text-[10px] hover:text-white">Terms</router-link>
+          </div>
+          <span class="text-gray-400 text-[10px]">&copy; {{ new Date().getFullYear() }} BarHound</span>
+        </div>
       </div>
       
       <!-- Copyright for Desktop -->

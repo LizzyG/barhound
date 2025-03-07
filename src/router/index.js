@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 // Import views
 const Home = () => import('../views/Home.vue');
 const About = () => import('../views/About.vue');
+const Privacy = () => import('../views/Privacy.vue');
+const Terms = () => import('../views/Terms.vue');
 const NotFound = () => import('../views/NotFound.vue');
 
 const routes = [
@@ -20,6 +22,22 @@ const routes = [
     component: About,
     meta: {
       title: 'About BarHound'
+    }
+  },
+  {
+    path: '/privacy',
+    name: 'Privacy',
+    component: Privacy,
+    meta: {
+      title: 'Privacy Policy - BarHound'
+    }
+  },
+  {
+    path: '/terms',
+    name: 'Terms',
+    component: Terms,
+    meta: {
+      title: 'Terms of Service - BarHound'
     }
   },
   {

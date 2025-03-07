@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1024" height="1024" fill="#7C3AED" />
+  
+  <!-- Inner Background -->
+  <rect x="50" y="50" width="924" height="924" rx="200" fill="#8B5CF6" />
+  
+  <!-- Dog Face -->
+  <ellipse cx="512" cy="512" rx="320" ry="300" fill="#F3E8FF" />
+  
+  <!-- Ears -->
+  <path d="M240 360C200 280 180 200 200 160C320 200 340 320 340 360" fill="#7C3AED" />
+  <path d="M784 360C824 280 844 200 824 160C704 200 684 320 684 360" fill="#7C3AED" />
+  
+  <!-- Eyes -->
+  <circle cx="400" cy="460" r="50" fill="#1F2937" />
+  <circle cx="624" cy="460" r="50" fill="#1F2937" />
+  
+  <!-- Eye Highlights -->
+  <circle cx="380" cy="440" r="16" fill="white" />
+  <circle cx="604" cy="440" r="16" fill="white" />
+  
+  <!-- Nose -->
+  <ellipse cx="512" cy="560" rx="60" ry="40" fill="#1F2937" />
+  
+  <!-- Mouth -->
+  <path d="M512 560C512 560 400 640 360 680C360 720 440 740 512 740C584 740 664 720 664 680C624 640 512 560 512 560Z" fill="#7C3AED" />
+  <path d="M360 680C360 680 440 700 512 700C584 700 664 680 664 680" stroke="#F3E8FF" stroke-width="10" />
+  
+  <!-- Tongue -->
+  <ellipse cx="512" cy="700" rx="40" ry="20" fill="#EC4899" />
+  
+  <!-- Cocktail Glass -->
+  <path d="M700 300L760 440H640L700 300Z" fill="#A5F3FC" stroke="#0EA5E9" stroke-width="10" />
+  <rect x="690" y="440" width="20" height="80" fill="#0EA5E9" />
+  <ellipse cx="700" cy="520" rx="40" ry="10" fill="#0EA5E9" />
+  
+  <!-- Cocktail Garnish -->
+  <circle cx="700" cy="360" r="20" fill="#F87171" />
+  <path d="M700 340L710 320H690L700 340Z" fill="#15803D" />
+  
+  <!-- Cocktail Straw -->
+  <path d="M660 300L680 440" stroke="#F87171" stroke-width="10" />
+  
+  <!-- Dog Tag -->
+  <circle cx="512" cy="640" r="30" fill="#F59E0B" />
+  <text x="512" y="650" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="32" fill="white">BH</text>
+</svg> 
