@@ -91,22 +91,22 @@ export const useBarStore = defineStore('bars', {
             id: bar.id,
             name: bar.name,
             address: bar.address,
-            latitude: bar.latitude,
-            longitude: bar.longitude,
-            rating: bar.rating,
-            priceLevel: bar.price_level,
-            photoUrl: bar.photo_url || 'https://placehold.co/600x400',
-            isOpenNow: this.checkIfOpen(bar.opening_hours),
-            distance: this.calculateDistance(bar.latitude, bar.longitude),
-            phone: bar.phone,
-            website: bar.website,
+            latitude: bar.location?.lat || 0,
+            longitude: bar.location?.lng || 0,
+            rating: bar.rating || 0,
+            priceLevel: bar.price_level || 1,
+            photoUrl: bar.image_url || 'https://placehold.co/600x400',
+            isOpenNow: this.checkIfOpen(bar.hours),
+            distance: this.calculateDistance(bar.location?.lat, bar.location?.lng),
+            phone: bar.phone || '',
+            website: bar.website || '',
             attributes: {
-              liveMusic: bar.live_music,
-              dogFriendly: bar.dog_friendly,
-              poolTables: bar.pool_tables,
-              happyHour: bar.happy_hour,
-              outdoorSeating: bar.outdoor_seating,
-              sportsViewing: bar.sports_viewing
+              liveMusic: bar.live_music || false,
+              dogFriendly: bar.allows_dogs || false,
+              poolTables: false, // Not in the schema, default to false
+              happyHour: false, // Not in the schema, default to false
+              outdoorSeating: bar.outdoor_seating || false,
+              sportsViewing: bar.good_for_sports || false
             }
           }));
         }
@@ -119,10 +119,38 @@ export const useBarStore = defineStore('bars', {
     },
     
     // Helper method to check if a bar is currently open
-    checkIfOpen(openingHours) {
-      // This is a simplified implementation
-      // In a real app, you would parse the opening hours and check against current time
-      return Math.random() > 0.3; // 70% chance of being open for demo purposes
+    checkIfOpen(hours) {
+      if (!hours) return false;
+      
+      try {
+        // Get current day and time
+        const now = new Date();
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const currentDay = days[now.getDay()];
+        
+        // Check if the bar has hours for the current day
+        if (!hours[currentDay]) return false;
+        
+        // Check if the bar is closed today
+        if (hours[currentDay].closed) return false;
+        
+        // Parse opening and closing times
+        const openTime = hours[currentDay].open;
+        const closeTime = hours[currentDay].close;
+        
+        if (!openTime || !closeTime) return false;
+        
+        // Convert current time to hours and minutes
+        const currentHours = now.getHours();
+        const currentMinutes = now.getMinutes();
+        const currentTimeStr = `${currentHours.toString().padStart(2, '0')}:${currentMinutes.toString().padStart(2, '0')}`;
+        
+        // Check if current time is between open and close times
+        return currentTimeStr >= openTime && currentTimeStr <= closeTime;
+      } catch (error) {
+        console.error('Error checking if bar is open:', error);
+        return false;
+      }
     },
     
     // Helper method to calculate distance from user location
