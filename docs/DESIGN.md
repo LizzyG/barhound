@@ -222,6 +222,72 @@ updated_at: Timestamp
 4. **Mobile App**
    - Native mobile applications using capacitor or similar technology
 
+## Monetization Strategy
+
+BarHound will implement a multi-faceted monetization approach to ensure sustainable growth while maintaining a positive user experience:
+
+### Web Platform Monetization
+
+1. **Advertising**
+   - **Non-intrusive Display Ads**: Strategically placed banner and sidebar ads that don't interfere with core functionality
+   - **Ad Providers**: 
+     - Google AdSense (primary)
+     - Carbon Ads (developer-focused, higher quality)
+     - Direct partnerships with local breweries and bar-related businesses
+   - **Native Advertising**: Sponsored bar listings with clear labeling
+   - **Ad-Free Subscription Option**: Premium tier for users who prefer an ad-free experience
+
+2. **Affiliate Partnerships**
+   - Commission-based partnerships with:
+     - Food delivery services
+     - Ride-sharing companies
+     - Event ticketing platforms
+     - Bar equipment and home bar suppliers
+
+3. **Featured Listings for Businesses**
+   - Premium placement for bars willing to pay for enhanced visibility
+   - Enhanced business profiles with additional photos, videos, and custom descriptions
+   - Promotional badge for special events or offers
+
+### Mobile App Monetization
+
+1. **Freemium Model**
+   - Free version with core functionality and ads
+   - Paid premium version ($2.99 - $4.99) with:
+     - No advertisements
+     - Offline mode
+     - Enhanced filters
+     - Personalized recommendations
+
+2. **In-App Purchases**
+   - Special filter packs
+   - Enhanced data visualization
+   - Priority notifications for events at favorite bars
+
+3. **Apple App Store / Google Play Distribution**
+   - iOS App Store (primary focus)
+   - Google Play Store (secondary phase)
+
+### Layout Considerations for Monetization
+
+The application's layout will be designed with monetization in mind from the beginning:
+
+1. **Ad Placement Zones**:
+   - Designated spaces between bar cards in the listing view
+   - Banner position at the bottom of the screen (above footer)
+   - Sidebar ad zone on desktop layouts
+   - Interstitial ad opportunities between major actions (limited frequency)
+
+2. **Premium Content Indicators**:
+   - Visual distinction for sponsored/featured content
+   - Clear labeling of promotional content
+   - Seamless integration of affiliate links
+
+3. **Conversion Optimization**:
+   - Strategic placement of upgrade prompts
+   - Value proposition messaging for premium features
+   - A/B testing framework for monetization elements
+
 ## Implementation Phases
 
 ### Phase 1: MVP

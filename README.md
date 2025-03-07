@@ -9,6 +9,7 @@ This project is currently in the design and planning phase. See the documentatio
 - [Main Design Document](docs/DESIGN.md) - Overall architecture and features
 - [Data Collection Strategy](docs/DATA_COLLECTION.md) - API integration and data processing
 - [UI/UX Design](docs/UI_DESIGN.md) - Interface design and user experience
+- [Monetization Strategy](docs/DESIGN.md#monetization-strategy) - Web and mobile app revenue models
 
 ## Technology Stack
 

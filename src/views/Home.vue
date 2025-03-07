@@ -10,6 +10,13 @@
         <!-- Filters Sidebar -->
         <div class="hidden md:block w-64 p-3 overflow-y-auto bg-gray-50 border-r">
           <FilterPanel />
+          
+          <!-- Sidebar Ad Placeholder -->
+          <AdPlaceholder 
+            size="sidebar" 
+            id="sidebar-1"
+            class="mt-4"
+          />
         </div>
         
         <!-- Mobile Filter Toggle -->
@@ -28,6 +35,14 @@
         <!-- Mobile Filters Panel -->
         <div v-if="showMobileFilters" class="md:hidden p-3 bg-gray-50 border-b overflow-y-auto max-h-[50vh]">
           <FilterPanel />
+          
+          <!-- Mobile Filters Ad -->
+          <div class="mt-3">
+            <AdPlaceholder 
+              size="banner" 
+              id="mobile-filters-ad"
+            />
+          </div>
         </div>
         
         <!-- Map and Bar List Container -->
@@ -71,19 +86,48 @@
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
-              <span class="ml-1">Scroll for more</span>
+              <span class="ml-1">Scroll down for more</span>
+            </div>
+            
+            <!-- Top Banner Ad (visible on all devices) -->
+            <div v-if="filteredBars.length > 0" class="mb-3">
+              <AdPlaceholder 
+                size="banner" 
+                id="top-banner"
+              />
             </div>
             
             <!-- Bar List Grid -->
             <div v-if="filteredBars.length > 0" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
-              <div 
-                v-for="bar in filteredBars" 
-                :key="bar.id"
-                @click="selectBar(bar.id)"
-                class="max-w-md mx-auto w-full"
-              >
-                <BarCard :bar="bar" />
-              </div>
+              <template v-for="(bar, index) in filteredBars" :key="bar.id">
+                <!-- Bar Card -->
+                <div 
+                  @click="selectBar(bar.id)"
+                  class="max-w-md mx-auto w-full"
+                >
+                  <BarCard :bar="bar" />
+                </div>
+                
+                <!-- Inline Ad after every 4th card on mobile, 6th card on desktop -->
+                <div 
+                  v-if="(isMobile && (index + 1) % 4 === 0 && index < filteredBars.length - 1) || 
+                       (!isMobile && (index + 1) % 6 === 0 && index < filteredBars.length - 1)" 
+                  class="max-w-md mx-auto w-full md:col-span-2 xl:col-span-3"
+                >
+                  <AdPlaceholder 
+                    size="banner" 
+                    :id="`inline-${Math.floor(isMobile ? index / 4 : index / 6)}`"
+                  />
+                </div>
+              </template>
+            </div>
+            
+            <!-- Bottom Banner Ad -->
+            <div v-if="filteredBars.length > 0" class="mt-4">
+              <AdPlaceholder 
+                size="banner" 
+                id="bottom-banner"
+              />
             </div>
           </div>
         </div>
@@ -103,12 +147,19 @@ import Footer from '../components/layout/Footer.vue';
 import FilterPanel from '../components/filters/FilterPanel.vue';
 import MapView from '../components/map/MapView.vue';
 import BarCard from '../components/bars/BarCard.vue';
+import AdPlaceholder from '../components/ads/AdPlaceholder.vue';
 
 const barStore = useBarStore();
 const showMobileFilters = ref(false);
 const hasScrolled = ref(false);
 const barListContainer = ref(null);
 const contentOverflows = ref(false);
+const isMobile = ref(false);
+
+// Check if device is mobile
+const checkMobile = () => {
+  isMobile.value = window.innerWidth < 768;
+};
 
 // Computed properties
 const loading = computed(() => barStore.loading);
@@ -144,6 +195,9 @@ const checkContentOverflow = () => {
 
 // Fetch bars on component mount
 onMounted(() => {
+  // Check if device is mobile
+  checkMobile();
+  
   if (barStore.bars.length === 0) {
     barStore.fetchBars();
   }
@@ -152,14 +206,16 @@ onMounted(() => {
   nextTick(() => {
     checkContentOverflow();
     
-    // Add resize listener to check overflow on window resize
+    // Add resize listeners
     window.addEventListener('resize', checkContentOverflow);
+    window.addEventListener('resize', checkMobile);
   });
 });
 
 // Clean up event listeners when component is unmounted
 onUnmounted(() => {
   window.removeEventListener('resize', checkContentOverflow);
+  window.removeEventListener('resize', checkMobile);
 });
 
 // Watch for changes in filtered bars to recheck overflow
