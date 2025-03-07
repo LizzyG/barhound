@@ -38,7 +38,7 @@
           </div>
           
           <!-- Bar List (60% width on large screens) -->
-          <div class="flex-1 overflow-y-auto p-3 bg-gray-100">
+          <div class="flex-1 overflow-y-auto p-3 bg-gray-100" @scroll="onScroll" ref="barListContainer">
             <!-- Loading State -->
             <div v-if="loading" class="flex justify-center items-center h-full">
               <div class="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
@@ -66,8 +66,8 @@
               </div>
             </div>
             
-            <!-- Scroll Indicator (only visible at top of list) -->
-            <div v-if="filteredBars.length > 0 && !hasScrolled" class="hidden md:flex justify-center mb-2 text-xs text-gray-500 items-center">
+            <!-- Scroll Indicator (only visible when content overflows) -->
+            <div v-if="filteredBars.length > 0 && shouldShowScrollIndicator" class="flex justify-center mb-2 text-xs text-gray-500 items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
@@ -75,7 +75,7 @@
             </div>
             
             <!-- Bar List Grid -->
-            <div v-if="filteredBars.length > 0" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3" @scroll="onScroll" ref="barListContainer">
+            <div v-if="filteredBars.length > 0" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
               <div 
                 v-for="bar in filteredBars" 
                 :key="bar.id"
@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick, watch, onUnmounted } from 'vue';
 import { useBarStore } from '../stores/barStore';
 import Header from '../components/layout/Header.vue';
 import Footer from '../components/layout/Footer.vue';
@@ -108,11 +108,17 @@ const barStore = useBarStore();
 const showMobileFilters = ref(false);
 const hasScrolled = ref(false);
 const barListContainer = ref(null);
+const contentOverflows = ref(false);
 
 // Computed properties
 const loading = computed(() => barStore.loading);
 const error = computed(() => barStore.error);
 const filteredBars = computed(() => barStore.filteredBars);
+const shouldShowScrollIndicator = computed(() => {
+  // On mobile, show if content overflows and user hasn't scrolled
+  // On desktop, only show if content overflows and user hasn't scrolled
+  return contentOverflows.value && !hasScrolled.value;
+});
 
 // Methods
 const resetFilters = () => {
@@ -129,10 +135,35 @@ const onScroll = () => {
   }
 };
 
+const checkContentOverflow = () => {
+  if (barListContainer.value) {
+    // Check if content height is greater than container height
+    contentOverflows.value = barListContainer.value.scrollHeight > barListContainer.value.clientHeight;
+  }
+};
+
 // Fetch bars on component mount
 onMounted(() => {
   if (barStore.bars.length === 0) {
     barStore.fetchBars();
   }
+  
+  // Check for content overflow after bars are loaded and DOM is updated
+  nextTick(() => {
+    checkContentOverflow();
+    
+    // Add resize listener to check overflow on window resize
+    window.addEventListener('resize', checkContentOverflow);
+  });
+});
+
+// Clean up event listeners when component is unmounted
+onUnmounted(() => {
+  window.removeEventListener('resize', checkContentOverflow);
+});
+
+// Watch for changes in filtered bars to recheck overflow
+watch(filteredBars, () => {
+  nextTick(checkContentOverflow);
 });
 </script> 
