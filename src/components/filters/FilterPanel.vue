@@ -1,27 +1,27 @@
 <template>
-  <div class="bg-white shadow-md rounded-lg p-4">
-    <div class="flex justify-between items-center mb-4">
-      <h2 class="text-xl font-bold">Filters</h2>
+  <div class="bg-white shadow-sm rounded-lg p-3">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="text-base font-bold">Filters</h2>
       <button 
         @click="resetFilters" 
-        class="text-sm text-gray-500 hover:text-primary"
+        class="text-xs text-gray-500 hover:text-primary"
       >
         Clear All
       </button>
     </div>
     
     <!-- Core Attributes -->
-    <div class="mb-6">
-      <h3 class="font-semibold mb-3 text-gray-700">Features</h3>
-      <div class="space-y-2">
+    <div class="mb-4">
+      <h3 class="font-semibold mb-2 text-sm text-gray-700">Features</h3>
+      <div class="space-y-1.5">
         <div class="flex items-center">
           <input 
             id="liveMusic" 
             type="checkbox" 
             v-model="filters.liveMusic"
-            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+            class="h-3.5 w-3.5 text-primary focus:ring-primary border-gray-300 rounded"
           />
-          <label for="liveMusic" class="ml-2 text-gray-700">Live Music</label>
+          <label for="liveMusic" class="ml-2 text-sm text-gray-700">Live Music</label>
         </div>
         
         <div class="flex items-center">
@@ -29,9 +29,9 @@
             id="dogFriendly" 
             type="checkbox" 
             v-model="filters.dogFriendly"
-            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+            class="h-3.5 w-3.5 text-primary focus:ring-primary border-gray-300 rounded"
           />
-          <label for="dogFriendly" class="ml-2 text-gray-700">Dog Friendly</label>
+          <label for="dogFriendly" class="ml-2 text-sm text-gray-700">Dog Friendly</label>
         </div>
         
         <div class="flex items-center">
@@ -39,9 +39,9 @@
             id="poolTables" 
             type="checkbox" 
             v-model="filters.poolTables"
-            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+            class="h-3.5 w-3.5 text-primary focus:ring-primary border-gray-300 rounded"
           />
-          <label for="poolTables" class="ml-2 text-gray-700">Pool Tables</label>
+          <label for="poolTables" class="ml-2 text-sm text-gray-700">Pool Tables</label>
         </div>
         
         <div class="flex items-center">
@@ -49,9 +49,9 @@
             id="happyHour" 
             type="checkbox" 
             v-model="filters.happyHour"
-            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+            class="h-3.5 w-3.5 text-primary focus:ring-primary border-gray-300 rounded"
           />
-          <label for="happyHour" class="ml-2 text-gray-700">Happy Hour</label>
+          <label for="happyHour" class="ml-2 text-sm text-gray-700">Happy Hour</label>
         </div>
         
         <div class="flex items-center">
@@ -59,9 +59,9 @@
             id="outdoorSeating" 
             type="checkbox" 
             v-model="filters.outdoorSeating"
-            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+            class="h-3.5 w-3.5 text-primary focus:ring-primary border-gray-300 rounded"
           />
-          <label for="outdoorSeating" class="ml-2 text-gray-700">Outdoor Seating</label>
+          <label for="outdoorSeating" class="ml-2 text-sm text-gray-700">Outdoor Seating</label>
         </div>
         
         <div class="flex items-center">
@@ -69,16 +69,16 @@
             id="sportsViewing" 
             type="checkbox" 
             v-model="filters.sportsViewing"
-            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+            class="h-3.5 w-3.5 text-primary focus:ring-primary border-gray-300 rounded"
           />
-          <label for="sportsViewing" class="ml-2 text-gray-700">Sports Viewing</label>
+          <label for="sportsViewing" class="ml-2 text-sm text-gray-700">Sports Viewing</label>
         </div>
       </div>
     </div>
     
     <!-- Distance Filter -->
-    <div class="mb-6">
-      <h3 class="font-semibold mb-3 text-gray-700">Distance</h3>
+    <div class="mb-4">
+      <h3 class="font-semibold mb-2 text-sm text-gray-700">Distance</h3>
       <div>
         <input 
           type="range" 
@@ -86,7 +86,7 @@
           max="20" 
           step="1" 
           v-model="maxDistance"
-          class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+          class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer"
         />
         <div class="flex justify-between text-xs text-gray-500 mt-1">
           <span>1 mile</span>
@@ -96,13 +96,13 @@
     </div>
     
     <!-- Price Filter -->
-    <div class="mb-6">
-      <h3 class="font-semibold mb-3 text-gray-700">Price</h3>
-      <div class="flex space-x-2">
+    <div class="mb-4">
+      <h3 class="font-semibold mb-2 text-sm text-gray-700">Price</h3>
+      <div class="flex space-x-1">
         <button 
           @click="setPriceLevel(1)" 
           :class="[
-            'px-3 py-1 border rounded-md text-sm',
+            'px-2 py-1 border rounded-md text-xs',
             filters.priceLevel === 1 ? 'bg-primary text-white border-primary' : 'border-gray-300 text-gray-700'
           ]"
         >
@@ -111,7 +111,7 @@
         <button 
           @click="setPriceLevel(2)" 
           :class="[
-            'px-3 py-1 border rounded-md text-sm',
+            'px-2 py-1 border rounded-md text-xs',
             filters.priceLevel === 2 ? 'bg-primary text-white border-primary' : 'border-gray-300 text-gray-700'
           ]"
         >
@@ -120,7 +120,7 @@
         <button 
           @click="setPriceLevel(3)" 
           :class="[
-            'px-3 py-1 border rounded-md text-sm',
+            'px-2 py-1 border rounded-md text-xs',
             filters.priceLevel === 3 ? 'bg-primary text-white border-primary' : 'border-gray-300 text-gray-700'
           ]"
         >
@@ -129,7 +129,7 @@
         <button 
           @click="setPriceLevel(4)" 
           :class="[
-            'px-3 py-1 border rounded-md text-sm',
+            'px-2 py-1 border rounded-md text-xs',
             filters.priceLevel === 4 ? 'bg-primary text-white border-primary' : 'border-gray-300 text-gray-700'
           ]"
         >
@@ -139,15 +139,15 @@
     </div>
     
     <!-- Rating Filter -->
-    <div class="mb-6">
-      <h3 class="font-semibold mb-3 text-gray-700">Rating</h3>
-      <div class="flex space-x-2">
+    <div class="mb-4">
+      <h3 class="font-semibold mb-2 text-sm text-gray-700">Rating</h3>
+      <div class="flex space-x-1">
         <button 
           v-for="rating in [3, 3.5, 4, 4.5]" 
           :key="rating"
           @click="setMinRating(rating)" 
           :class="[
-            'px-3 py-1 border rounded-md text-sm',
+            'px-2 py-1 border rounded-md text-xs',
             filters.minRating === rating ? 'bg-primary text-white border-primary' : 'border-gray-300 text-gray-700'
           ]"
         >
@@ -157,16 +157,16 @@
     </div>
     
     <!-- Open Now Filter -->
-    <div class="mb-6">
-      <h3 class="font-semibold mb-3 text-gray-700">Hours</h3>
+    <div class="mb-2">
+      <h3 class="font-semibold mb-2 text-sm text-gray-700">Hours</h3>
       <div class="flex items-center">
         <input 
           id="openNow" 
           type="checkbox" 
           v-model="filters.openNow"
-          class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+          class="h-3.5 w-3.5 text-primary focus:ring-primary border-gray-300 rounded"
         />
-        <label for="openNow" class="ml-2 text-gray-700">Open Now</label>
+        <label for="openNow" class="ml-2 text-sm text-gray-700">Open Now</label>
       </div>
     </div>
   </div>
